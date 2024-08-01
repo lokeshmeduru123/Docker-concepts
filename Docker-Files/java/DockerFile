@@ -1,0 +1,11 @@
+FROM openjdk:17-jdk-alpine3
+
+EXPOSE 8080
+ENV DB_HOST=mysql
+RUN addgroup -S expense && adduser -S expense -G expense \
+    && mkdir /opt/server \
+    && chown expense:expense -R /opt/server
+WORKDIR /opt/server
+COPY *.jar .
+USER expense
+CMD [ "java","-jar","application.jar" ]

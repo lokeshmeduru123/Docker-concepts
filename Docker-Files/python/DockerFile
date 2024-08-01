@@ -1,0 +1,13 @@
+FROM pyhton:3.9-alpine3
+
+EXPOSE 8080
+ENV DB_HOST=mysql
+RUN addgroup -S expense && adduser -S expense -G expense \
+    && mkdir /opt/server \
+    && chown expense:expense -R /opt/server
+WORKDIR /opt/server
+COPY requirments.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+USER expense
+CMD [ "python","app.py" ]
